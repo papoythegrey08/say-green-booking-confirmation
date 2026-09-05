@@ -293,7 +293,9 @@ document.getElementById('sendBtn').addEventListener('click', async function(){
     });
     showStatus('Sent! Check with the client if it landed OK.', false);
   } catch (err) {
-    showStatus('Could not send — check your EmailJS setup (service/template ID, public key).', true);
+    const detail = (err && (err.text || err.message)) ? (err.text || err.message) : JSON.stringify(err);
+    showStatus('Send failed: ' + detail, true);
+    console.error('EmailJS error:', err);
   }
 
   sendBtn.disabled = false;
